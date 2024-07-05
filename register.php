@@ -11,6 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $query . "<br>" . $conn->error;
     }
 }
+
 ?>
 
 <form method="post">
