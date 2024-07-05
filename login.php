@@ -1,36 +1,23 @@
 <?php
 session_start();
+$conn = new mysqli("db", "root", "password", "vulnerable_app");
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $users = file('users.txt', FILE_IGNORE_NEW_LINES);
-    foreach ($users as $user) {
-        list($stored_username, $stored_password) = explode(':', $user);
-        if ($username === $stored_username && $password === $stored_password) {
-            $_SESSION['username'] = $username;
-            setcookie("user", $username, time() + (86400 * 30), "/"); // Cookie на 30 дней
-            header("Location: welcome.php");
-            exit();
-        }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $result = $conn->query($query);
+    if ($result->num_rows > 0) {
+        $_SESSION["username"] = $username;
+        header("Location: welcome.php");
+    } else {
+        echo "Invalid credentials";
     }
-    echo "Неверное имя пользователя или пароль!";
 }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Авторизация</title>
-</head>
-<body>
-    <h1>Авторизация</h1>
-    <form method="POST" action="login.php">
-        <label for="username">Имя пользователя:</label>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required><br>
-        <button type="submit">Войти</button>
-    </form>
-</body>
-</html>
+
+<form method="post">
+    Username: <input type="text" name="username"><br>
+    Password: <input type="password" name="password"><br>
+    <input type="submit" value="Login">
+</form>

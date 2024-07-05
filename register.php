@@ -1,26 +1,20 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+$conn = new mysqli("db", "root", "password", "vulnerable_app");
 
-    file_put_contents('users.txt', $username . ':' . $password . PHP_EOL, FILE_APPEND);
-
-    echo "Регистрация прошла успешно!";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $query = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
+    if ($conn->query($query) === TRUE) {
+        echo "Registration successful";
+    } else {
+        echo "Error: " . $query . "<br>" . $conn->error;
+    }
 }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Регистрация</title>
-</head>
-<body>
-    <h1>Регистрация</h1>
-    <form method="POST" action="register.php">
-        <label for="username">Имя пользователя:</label>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required><br>
-        <button type="submit">Зарегистрироваться</button>
-    </form>
-</body>
-</html>
+
+<form method="post">
+    Username: <input type="text" name="username"><br>
+    Password: <input type="password" name="password"><br>
+    <input type="submit" value="Register">
+</form>

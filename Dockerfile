@@ -1,10 +1,3 @@
 FROM php:7.4-apache
-
-# Копирование файлов приложения в контейнер
+RUN docker-php-ext-install mysqli
 COPY . /var/www/html/
-
-# Настройка прав доступа
-RUN chown -R www-data:www-data /var/www/html/
-
-# Экспонирование порта 80
-EXPOSE 80
