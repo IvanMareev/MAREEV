@@ -5,3 +5,6 @@ sudo ln -s /usr/share/modsecurity-crs /etc/apache2/
 sudo ln -s /etc/modsecurity/modsecurity.conf /etc/apache2/conf-enabled/
 
 sudo cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf
+
+
+curl -d "username=' UNION SELECT username, password FROM users-- -&password=" -X POST http://localhost/register.php
