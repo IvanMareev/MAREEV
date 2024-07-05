@@ -1,10 +1,8 @@
 <?php
-// Обработка отправки формы
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Сохранение данных пользователя в файл (небезопасно!)
     file_put_contents('users.txt', $username . ':' . $password . PHP_EOL, FILE_APPEND);
 
     echo "Регистрация прошла успешно!";
